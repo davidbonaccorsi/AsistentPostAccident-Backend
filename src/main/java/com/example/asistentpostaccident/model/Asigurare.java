@@ -1,5 +1,6 @@
 package com.example.asistentpostaccident.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -15,7 +16,24 @@ public class Asigurare {
 
     @OneToOne
     @JoinColumn(name = "participant_id")
+    @JsonBackReference
     private Participant participant;
 
-    // Getters and Setters
+    // Asigurare getters/setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public String getCompanieRCA() { return companieRCA; }
+    public void setCompanieRCA(String companieRCA) { this.companieRCA = companieRCA; }
+
+    public String getNumarPolita() { return numarPolita; }
+    public void setNumarPolita(String numarPolita) { this.numarPolita = numarPolita; }
+
+    public Participant getParticipant() { return participant; }
+    public void setParticipant(Participant participant) {
+        this.participant = participant;
+        if (participant != null && participant.getAsigurare() != this) {
+            participant.setAsigurare(this);
+        }
+    }
 }
